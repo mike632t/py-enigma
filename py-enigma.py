@@ -27,14 +27,19 @@
 #                     - Steps the next rotor after the position reaches the
 #                       notch on the current rotor (need to fix the  double
 #                       stepping behaviour of the M3 or M4) - MT
+#   29 Dec 25   0.3   - Reduced the level of verbosity to a single level of
+#                       detail (it is now all or nothing) - MT
+#                     - Map the specified wiring of each rotor to the input
+#                       and output paths using a lookup table, which allows
+#                       the  ring position (Ringstellung) to be  configured
+#                       when a rotor is initialised - MT
 #                       
 #   Requires:         - sys, os
 #
-#   To Do:            - Allow ring settings to be changed for each rotor.
-#                     - Implement double stepping behaviour.
+#   To Do:            - Implement double stepping behaviour.
 #
 
-_VERSION = "0.2"
+_VERSION = "0.3"
 
 import sys, os
 
@@ -64,23 +69,29 @@ def _error(_error):
   raise SystemExit
   
 class Rotor:
-  def __init__(self, wiring, notch):
+  def __init__(self, wiring, notch, ring):
     self.wiring = wiring
     self.notch = notch
+    self.ring = ring
     self.position = 0
+    self.inp = [None] * 26
+    self.out = [None] * 26
+    for _count, _char in enumerate(self.wiring):
+      self.inp[_count] = ord(_char) - 65
+    for _count, _value in enumerate(self.inp):
+      self.out[_value] = _count
 
   def forward(self, char):
-    shift = (ord(char) + self.position - 65) % 26
-    char = self.wiring[shift]
-    if _verbose > 1: sys.stdout.write(chr(shift + 65) + "->" + char + "; ")
-    char = chr(ord(char) - self.position)
-    return char
+    _shift = (ord(char) - 65 + self.position - self.ring ) % 26
+    _output = self.inp[_shift]
+    if _verbose > 0: sys.stdout.write(chr((ord(char) - 65 + self.position) % 26 + 65) + "->" + chr(_output + self.ring + 65) + "; ")
+    return chr((_output + 26 - self.position + self.ring) % 26 + 65)
 
   def backward(self, char):
-    shift = self.wiring.index(chr((ord(char) + self.position - 65) % 26 + 65))
-    char = chr(shift + 65)
-    if _verbose > 1: sys.stdout.write(self.wiring[shift] + "->" + char + "; ")
-    return chr((ord(char) -65 + 26 - self.position) % 26 + 65)
+    _shift = (ord(char) - 65 + self.position - self.ring ) % 26
+    _output = self.out[_shift]
+    if _verbose > 0: sys.stdout.write(chr((ord(char) - 65 + self.position) % 26 + 65) + "->" + chr(_output + self.ring + 65) + "; ")
+    return chr((_output + 26 - self.position + self.ring) % 26 + 65)
 
   def rotate(self):
     self.position = (self.position + 1) % 26
@@ -127,7 +138,7 @@ _text = []
 _state = "AAA"
 _verbose = 0
 _count = 1
- 
+
 while _count < len(sys.argv):
   _arg = sys.argv [_count]
   if _arg[:1] == "-" and len(_arg) > 1:
@@ -152,11 +163,11 @@ while _count < len(sys.argv):
     _text.append(_arg) # If it isn't a qualified
   _count += 1
 
-right = Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q')   # Rotor 'I'
-middle = Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E')   # Rotor 'II'
-left = Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')   # Rotor 'III'
-reflector = Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT", '') # Reflector 'B'
-enigma = Enigma([right, middle, left], reflector, _state)
+right =     Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q', 0)        # Rotor 'I'
+middle =    Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E', 0)        # Rotor 'II'
+left =      Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V', 0)        # Rotor 'III'
+reflector = Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT", ' ', 0)        # Reflector 'B'
+enigma =    Enigma([right, middle, left], reflector, _state)
 
 _text = " ".join(_text)
 sys.stdout.write(enigma.encrypt(_text) + "\n")
