@@ -18,7 +18,7 @@ once the initial rotor position had been set.
 
 Compatibility between the Mk4 machines and the Mk3 is maintained by setting
 the 4th rotor to the 'A' position.
-
+```
   Rotor   ABCDEFGHIJKLMNOPQRSTUVWXYZ  Notch           Turnover
 
    ETW    ABCDEFGHIJKLMNOPQRSTUVWXYZ                   Fixed
@@ -35,12 +35,12 @@ the 4th rotor to the 'A' position.
 
    Beta   LEYJVCNIXWPBQMDRTAKZGFUHOS                   Fixed
    Gamma  FSOKANUERHMBTIYCWLQPZXVGJD                   Fixed
-
+```
 
 ### Reflectors
 
 Three different reflectors could be used as shown below:
-
+```
 Reflector ABCDEFGHIJKLMNOPQRSTUVWXYZ  Notch           Turnover
 
 Mk3
@@ -51,12 +51,12 @@ Mk3
 Mk4
    UKW-B  ENKQAUYWJICOPBLMDXZVFTHRGS	 	 	 
    UKW-C  RDOBJNTKVEHMLFCWZAXGYIPSUQ
-
+```
 The machine in the Bletchley Park Museum on loan from GCHQ is a different
 model with a different rotor arrangement.  As well as the wiring of every
 rotor being different the number of notches is increased (17 on the first
 15 on the second and 11 on the third).
-
+```
 Rotor     ABCDEFGHIJKLMNOPQRSTUVWXYZ  Notch             Turnover
 
 Entry     QWERTZUIOASDFGHJKPYXCVBNML                    Fixed
@@ -66,7 +66,7 @@ Entry     QWERTZUIOASDFGHJKPYXCVBNML                    Fixed
   III     UQNTLSZFMREHDPXKIBVYGJCWOA  CEFIMNPSUVZ       UWXAEFHKMNR
 
 Reflector RULQMZJSYGOCETKWDAHNBXPVIF                    Fixed
-
+```
 
 ### Links
 
