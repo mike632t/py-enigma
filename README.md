@@ -2,6 +2,7 @@
 
 An implementation of an engima simulator written in C.
 
+** Work in progress **
 
 ### Rotors
 
@@ -37,6 +38,7 @@ the 4th rotor to the 'A' position.
    Gamma  FSOKANUERHMBTIYCWLQPZXVGJD                   Fixed
 ```
 
+
 ### Reflectors
 
 Three different reflectors could be used as shown below:
@@ -49,7 +51,7 @@ Mk3
    UKW-C  FVPJIAOYEDRZXWGCTKUQSBNMHL
 
 Mk4
-   UKW-B  ENKQAUYWJICOPBLMDXZVFTHRGS	 	 	 
+   UKW-B  ENKQAUYWJICOPBLMDXZVFTHRGS 
    UKW-C  RDOBJNTKVEHMLFCWZAXGYIPSUQ
 ```
 The machine in the Bletchley Park Museum on loan from GCHQ is a different
@@ -68,9 +70,19 @@ Entry     QWERTZUIOASDFGHJKPYXCVBNML                    Fixed
 Reflector RULQMZJSYGOCETKWDAHNBXPVIF                    
 ```
 
+
+### Example
+
+```
+$ ./py-enigma.py the quick brown fox jumped over the lazy dog
+ZPT RRATE UJDAW KFJ ABUUQN UMTW BMC TEGL HQA
+```
+```
+$ ./py-enigma.py --setting two qvt peahy ekwva lgj dtovdt bzkd ayu ruxk kxf
+THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG
+```
+
 ### Links
 
 https://www.cryptomuseum.com/crypto/enigma/
-
-
 
