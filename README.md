@@ -86,3 +86,5 @@ THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG
 
 https://www.cryptomuseum.com/crypto/enigma/
 
+https://piotte13.github.io/enigma-cipher/
+
