@@ -83,7 +83,7 @@ $ ./py-enigma.py the quick brown fox jumped over the lazy dog
 ZPT RRATE UJDAW KFJ ABUUQN UMTW BMC TEGL HQA
 ```
 
-Decode some text that was encoded using a different rotor settings.
+Decode some text that was encoded using a different rotor setting.
 
 ```
 $ ./py-enigma.py -s two qvt peahy ekwva lgj dtovdt bzkd ayu ruxk kxf
