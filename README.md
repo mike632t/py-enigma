@@ -1,21 +1,23 @@
-## gcc-enigma
+# gcc-enigma
 
 An implementation of an engima simulator written in C.
 
 Work in progress
 
+## Enigma M1, M3 and M4
+
 ### Rotors
 
 The standard wiring for each of the different rotors is shown below:
 
-The Mk1 enigma machines could use three of five possible rotors (I-V), with
-three additional possible rotors being available for use with the later Mk3 
-(VI, VII and VIII).  
+The M1 enigma machines were provided with could use three of five  possible
+rotors (I-V), with three additional rotors being available for use with the
+later M3 (VI, VII and VIII).  
 
-For added complexity the Mk4 used a thinner reflector which allowed another 
-thinner rotors to be added.  This 4th rotor was one of two additional  thin
-rotors (Beta and Gamma) available.  Note that the 4th rotor was not rotated
-once the initial rotor position had been set.
+For  added complexity the M4 used a thinner reflector which allowed another
+thinner  rotor to be added.  This 4th rotor was one of two thin rotors used
+(either Beta and Gamma).  Note that once the initial position had been  set
+the fourth rotor remained fixed.
 
 Compatibility between the Mk4 machines and the Mk3 is maintained by setting
 the 4th rotor to the 'A' position.
@@ -41,27 +43,40 @@ the 4th rotor to the 'A' position.
 
 ### Reflectors
 
-Three different reflectors could be used as shown below:
+Three  different  reflectors could be used with the M3 with  two  different
+reflectors being used with the Mk4 as shown below:
 
 ```
 Reflector ABCDEFGHIJKLMNOPQRSTUVWXYZ  Notch           Turnover
 
-Mk3
+M3
    UKW-A  EJMZALYXVBWFCRQUONTSPIKHGD                    Fixed
    UKW-B  YRUHQSLDPXNGOKMIEBFZCWVJAT                    Fixed
    UKW-C  FVPJIAOYEDRZXWGCTKUQSBNMHL                    Fixed
+```
 
-Mk4
+```
+M4
    UKW-B  ENKQAUYWJICOPBLMDXZVFTHRGS                    Fixed
    UKW-C  RDOBJNTKVEHMLFCWZAXGYIPSUQ                    Fixed
 ```
 
-The machine in the Bletchley Park Museum on loan from GCHQ is a different
-model with a different rotor arrangement.  As well as the wiring of every
-rotor being different the number of notches is increased (17 on the first
-15 on the second and 11 on the third).  This model also does NOT have the
-double stepping behaviour of the Mk3 or Mk4 machines.
+## Enigma Model G
 
+The machine in the Bletchley Park Museum on loan from GCHQ has a  different
+design  to the others and unlike the M1, M3 and M4 it uses a series of cogs 
+and pinion wheels to advance the rotors and so does not exhibit the  double
+stepping behaviour of the M1, M3 and M4.
+
+There are several other notable diffeences.
+
+- There is no plug-board.
+- The number of notches is increased.  
+- The reflector is not fixed but steps like the other rotors.
+- The wiring of every rotor includign the entry wheel is different.
+
+The  table  below shows the wiring of the rotors used by the German  Abwehr
+(military intelligence service).
 ```
 Rotor     ABCDEFGHIJKLMNOPQRSTUVWXYZ  Notch             Turnover
 
@@ -74,40 +89,35 @@ Rotor     ABCDEFGHIJKLMNOPQRSTUVWXYZ  Notch             Turnover
    UKW    RULQMZJSYGOCETKWDAHNBXPVIF                    
 ```
 
-### Examples
+## Examples
 
-Encoding using the default settings.
+Encipher a message using the default settings.
 
 ```
 $ ./py-enigma.py the quick brown fox jumped over the lazy dog
 ZPT RRATE UJDAW KFJ ABUUQN UMTW BMC TEGL HQA
 ```
 
-Decode some text that was encoded using a different rotor setting.
+Decipher a message using a different rotor setting.
 
 ```
 $ ./py-enigma.py -s two qvt peahy ekwva lgj dtovdt bzkd ayu ruxk kxf
 THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG
 ```
 
-Currently  the only way to to use a different combination of rotors, or  to
-configure the plugboard it to modify the code.
-
-The following changes are therefore required to replicate the settings used
-to encode the last message sent from the battlecruser Scharnhorst 
+Select the rotors to be used.
 
 ```
-plugboard =   Rotor("    ", "NBCDZFGKJIHRQATVMLWOXPSUYE", ' ') # AN EZ HK IJ LR MQ OT PV SW and UX swapped
-left = rotor_III
-middle = rotor_VI
-right = rotor_VIII
-reflector = rotor_B
+$ ./py-enigma.py -w III, II, I -s two qvt peahy ekwva lgj dtovdt bzkd ayu ruxk kxf
+THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG
 ```
 
-With these changes made the message can be decoded.
+To decipher the last message sent from the battleship Scharnhorst you  need
+to select the rotors used, configure the matching ring settings and initial 
+rotor positions then set up the plug-board using the following command.
 
 ```
-$ ./py-enigma.py -r AHM -s UZV YKAE NZAP MSCH ZBFO CUVM RMDP YCOF HADZ IZME FXTH FLOL PZLF GGBO TGOX GRET DWTJ IQHL MXVJ WKZU ASTR
+$ ./py-enigma.py -w III, VI, VIII -r AHM -s UZV -p AN,EZ,HK,IJ,LR,MQ,OT,PV,SW,UX YKAE NZAP MSCH ZBFO CUVM RMDP YCOF HADZ IZME FXTH FLOL PZLF GGBO TGOX GRET DWTJ IQHL MXVJ WKZU ASTR
 YKAE NZAP MSCH ZBFO CUVM RMDP YCOF HADZ IZME FXTH FLOL PZLF GGBO TGOX GRET DWTJ IQHL MXVJ WKZU ASTR
 STEU EREJ TANA FJOR DJAN STAN DORT QUAA ACCC VIER NEUN NEUN ZWOF AHRT ZWON ULSM XXSC HARN HORS THCO
 
@@ -117,11 +127,11 @@ steuere j tanafjord j an standort qu aaa ccc vier neun neun zwo fahrt zwo nul sm
 
 ### Links
 
-https://www.cryptomuseum.com/crypto/enigma/
-
-https://www.cryptomuseum.com/crypto/enigma/
+https://en.wikipedia.org/wiki/Enigma_machine
 
 https://en.wikipedia.org/wiki/Enigma_rotor_details
+
+https://www.cryptomuseum.com/crypto/enigma/
 
 https://cryptocellar.org/bgac/scharnhorst.html
 
